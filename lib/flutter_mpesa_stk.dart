@@ -13,11 +13,18 @@ class FlutterMpesaSTK {
   final String _stkPassword;
   final String _shortCode;
   final String _callbackURL;
-  final String baseUrl = "https://sandbox.safaricom.co.ke/";
+  String baseUrl = "https://sandbox.safaricom.co.ke/";
   final String defaultMessage;
+  String? env;
 
   FlutterMpesaSTK(this._consumerKey, this._consumerSecret, this._stkPassword,
-      this._shortCode, this._callbackURL, this.defaultMessage);
+      this._shortCode, this._callbackURL, this.defaultMessage,
+      {this.env}) {
+    env ??= "testing";
+    if (env == "production") {
+      baseUrl = "https://api.safaricom.co.ke/";
+    }
+  }
 
   Future<MpesaResponse> stkPush(Mpesa mpesa) async {
     String timestamp = getTodayValidTimeStamp();
