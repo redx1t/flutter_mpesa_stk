@@ -17,6 +17,8 @@ class FlutterMpesaSTK {
   final String defaultMessage;
   String? env;
 
+  /// the env defaults to testing if not defined as production
+  
   FlutterMpesaSTK(this._consumerKey, this._consumerSecret, this._stkPassword,
       this._shortCode, this._callbackURL, this.defaultMessage,
       {this.env}) {

@@ -57,11 +57,12 @@ MpesaResponse response = await FlutterMpesaSTK(
             // an exposed callback url for knowing if the transaction is successful or not
             "https://94f9-41-90-65-205.ngrok-free.app/api/secret-url/callback",
             // message to show if something goes wrong
-            "default Message")
+            // if not defined the env defaults to `testing`
+            "default Message", env: "production")
         .stkPush(
-            //includes the amount and phone number of the person making payment. amount and phone number are required
+            // includes the amount and phone number of the person making payment. amount and phone number are required
             Mpesa(amount, phoneNumber, 
-            //account reference and transactionDesc are not required and can be absent
+            // account reference and transactionDesc are not required and can be absent
             accountReference: , transactionDesc));
     if (response.status) {
         // the response body has data you can use to query success or failure

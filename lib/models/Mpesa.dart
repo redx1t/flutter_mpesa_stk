@@ -3,9 +3,11 @@ class Mpesa {
   String phoneNumber;
   String? accountReference;
   String? transactionDesc;
+
+  /// if account reference || transactionDesc is not defined its replaced with the phone number
+  
   Mpesa(this.amount, this.phoneNumber,
       {this.accountReference, this.transactionDesc}) {
-    // if account reference || transactionDesc is not defined its replaced with the phone number
     accountReference ??= phoneNumber;
     transactionDesc ??= phoneNumber;
   }

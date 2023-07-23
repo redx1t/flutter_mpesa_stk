@@ -1,6 +1,6 @@
 name: flutter_mpesa_stk
-description: Flutter Mpesa STK push plugin.
-version: 1.0.0
+description: Flutter Mpesa STK push plugin that allows you to integrate Express Mpesa to your app.
+version: 1.0.0+1
 homepage: https://github.com/redx1t/flutter_mpesa_stk
 
 environment:
@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  http: ^0.13.5
+  http: ^1.1.0
   logger: ^1.4.0
 
 dev_dependencies:
