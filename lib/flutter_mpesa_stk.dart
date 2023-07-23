@@ -41,12 +41,16 @@ class FlutterMpesaSTK {
       "CallBackURL": _callbackURL,
       "TransactionDesc": mpesa.transactionDesc,
     };
-    Response response = await postCall("mpesa/stkpush/v1/processrequest",
-        {"Authorization": "Bearer ${await getAccessToken()}"}, body);
-    if (response.statusCode != 200) {
-      return MpesaResponse(false, json.decode(response.body));
+    try {
+      Response response = await postCall("mpesa/stkpush/v1/processrequest",
+          {"Authorization": "Bearer ${await getAccessToken()}"}, body);
+      if (response.statusCode != 200) {
+        return MpesaResponse(false, json.decode(response.body));
+      }
+      return MpesaResponse(true, json.decode(response.body));
+    } catch (e) {
+      return MpesaResponse(false, defaultMessage);
     }
-    return MpesaResponse(true, json.decode(response.body));
   }
 
   String generatePassword() {

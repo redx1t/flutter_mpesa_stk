@@ -1,6 +1,6 @@
 name: flutter_mpesa_stk
 description: Flutter Mpesa STK push plugin.
-version: 0.0.1
+version: 1.0.0
 homepage: https://github.com/redx1t/flutter_mpesa_stk
 
 environment:
