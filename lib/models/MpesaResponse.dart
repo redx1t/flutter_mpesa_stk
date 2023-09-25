@@ -1,4 +1,6 @@
-///this  class is used to define the response from mpesa for stk push
+/// this  class is used to define the response from mpesa for stk push
+
+// ignore_for_file: file_names
 
 class MpesaResponse {
   bool status;
