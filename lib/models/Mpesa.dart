@@ -1,3 +1,5 @@
+/// this class is used to define the mpesa request
+
 class Mpesa {
   int amount;
   String phoneNumber;
@@ -5,7 +7,7 @@ class Mpesa {
   String? transactionDesc;
 
   /// if account reference || transactionDesc is not defined its replaced with the phone number
-  
+
   Mpesa(this.amount, this.phoneNumber,
       {this.accountReference, this.transactionDesc}) {
     accountReference ??= phoneNumber;
