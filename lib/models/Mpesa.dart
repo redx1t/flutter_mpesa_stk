@@ -1,8 +1,7 @@
-/// this class is used to define the mpesa request
-
 // ignore_for_file: file_names
 
 class Mpesa {
+  /// this class is used to define the mpesa request
   int amount;
   String phoneNumber;
   String? accountReference;
