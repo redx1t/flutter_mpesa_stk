@@ -8,3 +8,6 @@
 - Better documentation of the classes
 - update the dependancies
 - `dart format . ` 
+
+## 1.0.2
+- Fix: dangling library comments 
