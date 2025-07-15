@@ -13,6 +13,7 @@ class FlutterMpesaSTK {
   final String _stkPassword;
   final String _shortCode;
   final String _callbackURL;
+  final logger = Logger();
 
   /// this is the testing environment used for testing implementation
   String baseUrl = "https://sandbox.safaricom.co.ke/";
@@ -28,6 +29,8 @@ class FlutterMpesaSTK {
     env ??= "testing";
     if (env == "production") {
       baseUrl = "https://api.safaricom.co.ke/";
+    } else {
+      baseUrl = "https://sandbox.safaricom.co.ke/";
     }
   }
 
@@ -58,6 +61,7 @@ class FlutterMpesaSTK {
       }
       return MpesaResponse(true, json.decode(response.body));
     } catch (e) {
+      logger.e(e);
       return MpesaResponse(false, defaultMessage);
     }
   }
@@ -108,6 +112,9 @@ class FlutterMpesaSTK {
     // preferably a response that can be handled;
     Response response = Response(defaultMessage, 500);
     Uri uri = Uri.parse(baseUrl + url);
+    logger.d(uri);
+    logger.d(headers);
+    logger.d(body);
     headers.addEntries({"content-type": "application/json"}.entries);
 
     try {
@@ -119,7 +126,6 @@ class FlutterMpesaSTK {
             await client.post(uri, headers: headers, body: json.encode(body));
       }
     } catch (e) {
-      var logger = Logger();
       logger.e(e);
     }
     return response;

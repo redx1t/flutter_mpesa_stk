@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mpesa_stk/flutter_mpesa_stk.dart';
 import 'package:flutter_mpesa_stk/models/Mpesa.dart';
 import 'package:flutter_mpesa_stk/models/MpesaResponse.dart';
+import 'package:logger/logger.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,9 +16,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Mpesa STK Plugin Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: ThemeData(primarySwatch: Colors.blue),
+      debugShowCheckedModeBanner: false,
       home: const MyHomePage(title: 'Flutter Mpesa STK Plugin Demo'),
     );
   }
@@ -34,11 +34,13 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final amountController = TextEditingController();
   final phoneNumberController = TextEditingController();
+  final logger = Logger();
 
   @override
   void dispose() {
     amountController.dispose();
     phoneNumberController.dispose();
+    super.dispose();
   }
 
   bool loading = false;
@@ -49,8 +51,9 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void notify(String message) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(message)));
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 
   processSTK() async {
@@ -75,18 +78,18 @@ class _MyHomePageState extends State<MyHomePage> {
     }
     //var instead of strong typing to ensure we validate phone number or get false if it fails
     MpesaResponse response = await FlutterMpesaSTK(
-            "consumerKey",
-            "consumerSecret",
-            "stkPassword",
-            "shortcode",
-            "callbackURL",
-            "default Message")
-        .stkPush(Mpesa(amount, phoneNumberController.value.text));
+      "consumerKey",
+      "consumerSecret",
+      "stkPassword",
+      "shortcode",
+      "callbackURL",
+      "default Message",
+    ).stkPush(Mpesa(amount, phoneNumberController.value.text));
     if (response.status) {
-      print(response.body);
+      logger.i(response.body);
       notify("successful stk push. please enter pin");
     } else {
-      print(response.body);
+      logger.e(response.body);
       notify("failed. please try again");
     }
     setLoading(false);
@@ -110,9 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 'Click the button to trigger an STK push',
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 22),
               ),
-              const SizedBox(
-                height: 12,
-              ),
+              const SizedBox(height: 12),
               TextField(
                 controller: amountController,
                 decoration: const InputDecoration(
@@ -121,35 +122,36 @@ class _MyHomePageState extends State<MyHomePage> {
                   hintText: 'Amount',
                 ),
               ),
-              const SizedBox(
-                height: 12,
-              ),
+              const SizedBox(height: 12),
               TextField(
                 controller: phoneNumberController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Enter the phone number *',
-                  hintText: 'Amount',
+                  hintText: 'Phone Number',
                 ),
               ),
+              const SizedBox(height: 12),
               TextButton(
-                  onPressed: () async {
-                    if (loading) {
-                      notify("processing");
-                      return;
-                    }
-                    await processSTK();
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: const BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.all(Radius.circular(8))),
-                    child: const Text(
-                      "Trigger STK push",
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                    ),
-                  ))
+                onPressed: () async {
+                  if (loading) {
+                    notify("processing");
+                    return;
+                  }
+                  await processSTK();
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: const BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                  ),
+                  child: const Text(
+                    "Trigger STK push",
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
